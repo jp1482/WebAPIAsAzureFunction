@@ -44,7 +44,9 @@ steps:
   inputs:
     script: |
       echo Write your commands here
-      cd $(Build.ArtifactStagingDirectory)/API/WebAPI
+      mkdir $(Build.ArtifactStagingDirectory)/Final
+      cp $(Build.ArtifactStagingDirectory)/API/WebAPI $(Build.ArtifactStagingDirectory)/Final 
+      cd $(Build.ArtifactStagingDirectory)/Final      
       echo Hello world
-      ls -l
+      tree
 
