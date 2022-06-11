@@ -35,3 +35,11 @@ steps:
     projects: '**/*.csproj'
     arguments: '--configuration release --output $(Build.ArtifactStagingDirectory)/API'
 
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo Write your commands here
+      cd $(Build.ArtifactStagingDirectory)/API
+      echo Hello world
+      ls -l
+
