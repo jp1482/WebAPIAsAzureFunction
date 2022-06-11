@@ -81,6 +81,9 @@ stages:
    jobs:
    - job: Deploy
      steps:
+     - task: DownloadBuildArtifacts@0
+       inputs:
+          artifactName: drop
      - task: AzureFunctionApp@1
        inputs:
           azureSubscription: 'Azure Resource Manager Visual Studio Subscription'
