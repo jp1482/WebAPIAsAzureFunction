@@ -9,6 +9,10 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  - name: 'customHandler.description.defaultWorkerPath'
+    value: 'WebAPI.dll'
+
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
@@ -53,6 +57,12 @@ steps:
       cd $(Build.ArtifactStagingDirectory)/Final      
       echo Hello world
       tree
+
+- task: FileTransform@1
+  inputs:
+    folderPath: '$(Build.ArtifactStagingDirectory)/Final'
+    fileType: 'json'
+    targetFiles: '**/host.json'
 
 - task: ArchiveFiles@1
   inputs:
