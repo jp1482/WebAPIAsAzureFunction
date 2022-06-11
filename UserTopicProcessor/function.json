@@ -1,0 +1,13 @@
+{
+  "bindings": [
+    {
+      "name": "item",
+      "type": "serviceBusTrigger",
+      "direction": "in",
+      "datatype":"string",
+      "topicName": "User",
+      "subscriptionName": "UserTopicProcessorLog",
+      "connection": "ServiceBusConnection"     
+    }
+  ]
+}
