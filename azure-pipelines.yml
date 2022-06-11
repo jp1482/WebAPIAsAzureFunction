@@ -77,12 +77,14 @@ stages:
           ArtifactName: drop
           PathtoPublish: $(Build.ArtifactStagingDirectory)/Final 
 
-#  - stage: Deploy
-#    jobs:
-#    - job: Deploy
-#      steps:
-#      - task: AzureFunctionApp@1
-#        inputs:
-#           azureSubscription: 
+ - stage: Deploy
+   jobs:
+   - job: Deploy
+     steps:
+     - task: AzureFunctionApp@1
+       inputs:
+          azureSubscription: 'Azure Resource Manager Visual Studio Subscription'
+          appType: functionApp
+          appName: 'FunctionAppCustomHandler'
       
 
