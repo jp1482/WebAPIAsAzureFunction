@@ -75,5 +75,14 @@ stages:
       - task: PublishBuildArtifacts@1
         inputs:
           ArtifactName: drop
-          PathtoPublish: $(Build.ArtifactStagingDirectory)/Final     
+          PathtoPublish: $(Build.ArtifactStagingDirectory)/Final 
+
+#  - stage: Deploy
+#    jobs:
+#    - job: Deploy
+#      steps:
+#      - task: AzureFunctionApp@1
+#        inputs:
+#           azureSubscription: 
+      
 
