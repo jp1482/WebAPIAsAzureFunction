@@ -24,12 +24,14 @@ steps:
     useGlobalJson: true
 
 - task: DotNetCoreCLI@2
+  displayName: Build Web API Project
   inputs:
     command: 'build'
     projects: '**/*.csproj'
     arguments: '--configuration release'
 
 - task: DotNetCoreCLI@2
+  displayName: Publish Web API Project
   inputs:
     command: 'publish'
     projects: '**/*.csproj'
@@ -38,6 +40,7 @@ steps:
     publishWebProjects: false
 
 - task: CmdLine@2
+  displayName: Prepare Azure Function For Publish With API
   inputs:
     script: |
       echo Write your commands here
