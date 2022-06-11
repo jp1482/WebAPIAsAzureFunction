@@ -75,7 +75,7 @@ stages:
       - task: PublishBuildArtifacts@1
         inputs:
           ArtifactName: drop
-          PathtoPublish: $(Build.ArtifactStagingDirectory)/Final 
+          PathtoPublish: $(Build.ArtifactStagingDirectory)/Final.zip 
 
  - stage: Deploy
    jobs:
@@ -83,7 +83,8 @@ stages:
      steps:
      - task: DownloadBuildArtifacts@0
        inputs:
-          artifactName: drop
+          artifactName: drop     
+
      - task: AzureFunctionApp@1
        inputs:
           azureSubscription: 'Azure Resource Manager Visual Studio Subscription'
