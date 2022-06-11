@@ -41,7 +41,7 @@ steps:
   inputs:
     script: |
       echo Write your commands here
-      cd $(Build.ArtifactStagingDirectory)/API
+      cd $(Build.ArtifactStagingDirectory)/API/WebAPI
       echo Hello world
       ls -l
 
