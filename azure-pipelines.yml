@@ -89,7 +89,6 @@ stages:
           azureSubscription: 'Azure Resource Manager Visual Studio Subscription'
           appType: functionApp
           appName: 'FunctionAppCustomHandler'
-          deploymentMethod: auto
-          package: drop.zip 
+          deploymentMethod: auto          
       
 
