@@ -14,13 +14,6 @@ variables:
     value: 'WebAPI.dll'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
 
 - task: UseDotNet@2
   inputs:
@@ -47,18 +40,22 @@ steps:
   displayName: Prepare Azure Function For Publish With API
   inputs:
     script: |
-      echo Write your commands here
+      echo Create Final Directory
       mkdir $(Build.ArtifactStagingDirectory)/Final
+      echo Copy WebAPI To Final Directory
       cp -r $(Build.ArtifactStagingDirectory)/API/WebAPI $(Build.ArtifactStagingDirectory)/Final
+      echo Copy Trigger To Final Directory
       cp -r $(Build.SourcesDirectory)/HttpTrigger $(Build.ArtifactStagingDirectory)/Final
       cp -r $(Build.SourcesDirectory)/SaveRecord $(Build.ArtifactStagingDirectory)/Final
       cp -r $(Build.SourcesDirectory)/UserTopicProcessor $(Build.ArtifactStagingDirectory)/Final
+      echo Copy host.json
       cp $(Build.SourcesDirectory)/host.json $(Build.ArtifactStagingDirectory)/Final/host.json      
-      cd $(Build.ArtifactStagingDirectory)/Final      
-      echo Hello world
+      echo Check Final
+      cd $(Build.ArtifactStagingDirectory)/Final            
       tree
 
 - task: FileTransform@1
+  displayName: Replace Token in json settings
   inputs:
     folderPath: '$(Build.ArtifactStagingDirectory)/Final'
     fileType: 'json'
