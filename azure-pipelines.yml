@@ -47,6 +47,9 @@ steps:
       mkdir $(Build.ArtifactStagingDirectory)/Final
       cp -r $(Build.ArtifactStagingDirectory)/API/WebAPI $(Build.ArtifactStagingDirectory)/Final
       cp -r $(Build.SourcesDirectory)/HttpTrigger $(Build.ArtifactStagingDirectory)/Final
+      cp -r $(Build.SourcesDirectory)/SaveRecord $(Build.ArtifactStagingDirectory)/Final
+      cp -r $(Build.SourcesDirectory)/UserTopicProcessor $(Build.ArtifactStagingDirectory)/Final
+      cp $(Build.SourcesDirectory)/host.json $(Build.ArtifactStagingDirectory)/Final/host.json      
       cd $(Build.ArtifactStagingDirectory)/Final      
       echo Hello world
       tree
