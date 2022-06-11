@@ -83,13 +83,13 @@ stages:
      steps:
      - task: DownloadBuildArtifacts@0
        inputs:
-          artifactName: drop     
+          artifactName: drop               
 
      - task: AzureFunctionApp@1
        inputs:
           azureSubscription: 'Azure Resource Manager Visual Studio Subscription'
           appType: functionApp
           appName: 'FunctionAppCustomHandler'
-          deploymentMethod: auto          
-      
+          deploymentMethod: auto                    
+          package: '$(System.ArtifactsDirectory)/Final.zip' 
 
