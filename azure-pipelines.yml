@@ -91,5 +91,5 @@ stages:
           appType: functionApp
           appName: 'FunctionAppCustomHandler'
           deploymentMethod: auto                    
-          package: '$(System.ArtifactsDirectory)/Final.zip' 
+          package: '$(System.ArtifactsDirectory)/drop/Final.zip' 
 
