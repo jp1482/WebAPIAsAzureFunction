@@ -54,3 +54,15 @@ steps:
       echo Hello world
       tree
 
+- task: ArchiveFiles@1
+  inputs:
+    includeRootFolder: false
+    archiveType: default
+    rootFolder: $(Build.ArtifactStagingDirectory)/Final
+    archiveFile: $(Build.ArtifactStagingDirectory)/Final.zip
+  
+- task: PublishBuildArtifacts@1
+  inputs:
+     ArtifactName: drop
+     PathtoPublish: $(Build.ArtifactStagingDirectory)/Final     
+
