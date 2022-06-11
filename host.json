@@ -8,7 +8,7 @@
 		"description": {
 			"defaultExecutablePath": "dotnet",			
 			"defaultWorkerPath": "run",
-			"workingDirectory": "C:\\CustomHandler\\WebApi",
+			"workingDirectory": ".\\WebApi",
 			"arguments": []
 		},
 		"enableForwardingHttpRequest": true
