@@ -45,7 +45,8 @@ steps:
     script: |
       echo Write your commands here
       mkdir $(Build.ArtifactStagingDirectory)/Final
-      cp -r $(Build.ArtifactStagingDirectory)/API/WebAPI $(Build.ArtifactStagingDirectory)/Final 
+      cp -r $(Build.ArtifactStagingDirectory)/API/WebAPI $(Build.ArtifactStagingDirectory)/Final
+      cp -r $(Build.SourcesDirectory)/HttpTrigger $(Build.ArtifactStagingDirectory)/Final
       cd $(Build.ArtifactStagingDirectory)/Final      
       echo Hello world
       tree
