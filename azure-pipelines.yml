@@ -1,0 +1,95 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - name: 'customHandler.description.defaultWorkerPath'
+    value: 'WebAPI.dll'
+
+stages:
+ - stage: Build
+   jobs:
+   - job: Build
+     steps:
+
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          useGlobalJson: true
+
+      - task: DotNetCoreCLI@2
+        displayName: Build Web API Project
+        inputs:
+          command: 'build'
+          projects: '**/*.csproj'
+          arguments: '--configuration release'
+
+      - task: DotNetCoreCLI@2
+        displayName: Publish Web API Project
+        inputs:
+          command: 'publish'
+          projects: '**/*.csproj'
+          arguments: '--configuration release --output $(Build.ArtifactStagingDirectory)/API'
+          zipAfterPublish: false
+          publishWebProjects: false
+
+      - task: CmdLine@2
+        displayName: Prepare Azure Function For Publish With API
+        inputs:
+          script: |
+            echo Create Final Directory
+            mkdir $(Build.ArtifactStagingDirectory)/Final
+            echo Copy WebAPI To Final Directory
+            cp -r $(Build.ArtifactStagingDirectory)/API/WebAPI $(Build.ArtifactStagingDirectory)/Final
+            echo Copy Trigger To Final Directory
+            cp -r $(Build.SourcesDirectory)/HttpTrigger $(Build.ArtifactStagingDirectory)/Final
+            cp -r $(Build.SourcesDirectory)/SaveRecord $(Build.ArtifactStagingDirectory)/Final
+            cp -r $(Build.SourcesDirectory)/UserTopicProcessor $(Build.ArtifactStagingDirectory)/Final
+            echo Copy host.json
+            cp $(Build.SourcesDirectory)/host.json $(Build.ArtifactStagingDirectory)/Final/host.json      
+            echo Check Final
+            cd $(Build.ArtifactStagingDirectory)/Final            
+            tree
+
+      - task: FileTransform@1
+        displayName: Replace Token in json settings
+        inputs:
+          folderPath: '$(Build.ArtifactStagingDirectory)/Final'
+          fileType: 'json'
+          targetFiles: '**/host.json'
+
+      - task: ArchiveFiles@1
+        inputs:
+          includeRootFolder: false
+          archiveType: default
+          rootFolder: $(Build.ArtifactStagingDirectory)/Final
+          archiveFile: $(Build.ArtifactStagingDirectory)/Final.zip
+        
+      - task: PublishBuildArtifacts@1
+        inputs:
+          ArtifactName: drop
+          PathtoPublish: $(Build.ArtifactStagingDirectory)/Final.zip 
+
+ - stage: Deploy
+   jobs:
+   - job: Deploy
+     steps:
+     - task: DownloadBuildArtifacts@0
+       inputs:
+          artifactName: drop               
+
+     - task: AzureFunctionApp@1
+       inputs:
+          azureSubscription: 'Azure Resource Manager Visual Studio Subscription'
+          appType: functionApp
+          appName: 'FunctionAppCustomHandler'
+          deploymentMethod: auto                    
+          package: '$(System.ArtifactsDirectory)/drop/Final.zip' 
+
