@@ -79,8 +79,8 @@ stages:
 
  - stage: 'Dev'
    jobs:
-   - deployment: 'DeployToTest'
-     environment: 'infrastructure-test'
+   - deployment: 'DeployToDev'
+     environment: 'Dev'
      strategy:
         runOnce:
           deploy:
