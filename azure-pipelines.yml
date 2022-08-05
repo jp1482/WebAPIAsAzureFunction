@@ -98,7 +98,7 @@ stages:
                   package: '$(System.ArtifactsDirectory)/drop/Final.zip' 
 
 - stage: 'QA'
-   jobs:
+  jobs:
    - deployment: 'DeployToQA'
      environment: 'QA'
      strategy:
