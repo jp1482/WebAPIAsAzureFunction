@@ -79,6 +79,8 @@ stages:
 
  - stage: Deploy
    jobs:
+   - deployment: DeployToDev
+     environment: Dev 
    - job: Deploy
      steps:
      - task: DownloadBuildArtifacts@0
