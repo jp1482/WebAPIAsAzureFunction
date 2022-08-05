@@ -77,21 +77,43 @@ stages:
           ArtifactName: drop
           PathtoPublish: $(Build.ArtifactStagingDirectory)/Final.zip 
 
- - stage: Deploy
+ - stage: 'Dev'
    jobs:
-   - deployment: DeployToDev
-     environment: Dev 
-   - job: Deploy
-     steps:
-     - task: DownloadBuildArtifacts@0
-       inputs:
-          artifactName: drop               
+   - deployment: 'DeployToTest'
+     environment: 'infrastructure-test'
+     strategy:
+        runOnce:
+          deploy:
+            steps:
+            - task: DownloadBuildArtifacts@0
+              inputs:
+                  artifactName: drop               
 
-     - task: AzureFunctionApp@1
-       inputs:
-          azureSubscription: 'Azure Resource Manager Visual Studio Subscription'
-          appType: functionApp
-          appName: 'FunctionAppCustomHandler'
-          deploymentMethod: auto                    
-          package: '$(System.ArtifactsDirectory)/drop/Final.zip' 
+            - task: AzureFunctionApp@1
+              inputs:
+                  azureSubscription: 'Azure Resource Manager Visual Studio Subscription'
+                  appType: functionApp
+                  appName: 'FunctionAppCustomHandler'
+                  deploymentMethod: auto                    
+                  package: '$(System.ArtifactsDirectory)/drop/Final.zip' 
+
+- stage: 'QA'
+   jobs:
+   - deployment: 'DeployToQA'
+     environment: 'QA'
+     strategy:
+        runOnce:
+          deploy:
+            steps:
+            - task: DownloadBuildArtifacts@0
+              inputs:
+                  artifactName: drop               
+
+            - task: AzureFunctionApp@1
+              inputs:
+                  azureSubscription: 'Azure Resource Manager Visual Studio Subscription'
+                  appType: functionApp
+                  appName: 'FunctionAppCustomHandler'
+                  deploymentMethod: auto                    
+                  package: '$(System.ArtifactsDirectory)/drop/Final.zip' 
 
