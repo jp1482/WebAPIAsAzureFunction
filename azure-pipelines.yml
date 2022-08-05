@@ -97,11 +97,11 @@ stages:
                   deploymentMethod: auto                    
                   package: '$(System.ArtifactsDirectory)/drop/Final.zip' 
 
-- stage: 'QA'
-  jobs:
-   - deployment: 'DeployToQA'
-     environment: 'QA'
-     strategy:
+ - stage: 'QA'
+   jobs:
+    - deployment: 'DeployToQA'
+      environment: 'QA'
+      strategy:
         runOnce:
           deploy:
             steps:
